@@ -1,5 +1,7 @@
 from page.login_page import LoginPage
 from page.inventory_page import InventoryPage
+import os
+from datetime import datetime
 
 def test_catalogo_productos(driver):
 #Verifica el título, los productos y elementos del catálogo.
@@ -24,3 +26,10 @@ def test_catalogo_productos(driver):
     name, price = inventario.get_first_product_info()
     print(f"\nPrimer producto visible: {name} - {price}")
     assert name != "" and price != "", "No se pudo obtener nombre o precio del primer producto."
+
+    # Captura de pantalla
+    os.makedirs("reports", exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    screenshot_path = os.path.join("reports", f"catalogo_{timestamp}.png")
+    driver.save_screenshot(screenshot_path)
+    print(f"Captura guardada en: {screenshot_path}")
